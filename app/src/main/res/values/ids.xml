@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 固定 ID：旋转屏幕等重建 Activity 时，系统按 ID 恢复未保存的表单内容 -->
+    <item name="scroll" type="id" />
+    <item name="sw_enabled" type="id" />
+    <item name="rb_brightness" type="id" />
+    <item name="rb_lux" type="id" />
+    <item name="et_b_dark" type="id" />
+    <item name="et_b_light" type="id" />
+    <item name="et_l_dark" type="id" />
+    <item name="et_l_light" type="id" />
+    <item name="et_delay" type="id" />
+    <item name="sw_require_auto" type="id" />
+    <item name="sw_respect_auto" type="id" />
+    <item name="sw_home_only" type="id" />
+    <item name="sw_debug" type="id" />
+</resources>
