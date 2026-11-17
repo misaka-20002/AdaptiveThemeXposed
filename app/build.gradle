@@ -1,0 +1,59 @@
+plugins {
+    id 'com.android.application'
+}
+
+// 发布签名：由环境变量提供（见 README 的"签名"一节）。
+// 没有提供时退回 debug 签名，这种 APK 换一台机器构建就无法覆盖安装。
+def releaseKeystorePath = System.getenv('RELEASE_KEYSTORE_FILE')
+def hasReleaseKey = releaseKeystorePath != null && !releaseKeystorePath.isEmpty() &&
+        new File(releaseKeystorePath).exists()
+if (!hasReleaseKey) {
+    logger.warn('WARNING: 未配置发布签名，release 使用本机 debug 签名；' +
+            '不同机器构建出的 APK 签名不同，无法互相覆盖安装。')
+}
+
+android {
+    namespace 'com.misaka20002.AdaptiveThemeXposed'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.misaka20002.AdaptiveThemeXposed'
+        minSdk 29
+        targetSdk 35
+        versionCode 9
+        versionName '1.8'
+    }
+
+    signingConfigs {
+        release {
+            if (hasReleaseKey) {
+                storeFile new File(releaseKeystorePath)
+                storePassword System.getenv('RELEASE_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('RELEASE_KEY_ALIAS')
+                keyPassword System.getenv('RELEASE_KEY_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig hasReleaseKey ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+
+    lint {
+        // MODE_WORLD_READABLE 是 Xposed 模块的惯用做法，不让 lint 中断 release 构建
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    compileOnly 'de.robv.android.xposed:api:82'
+}

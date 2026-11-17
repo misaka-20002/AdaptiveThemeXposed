@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 保存设置后通知 system_server 重读配置用。签名级：其他应用拿不到，也就发不了这个广播 -->
+    <permission
+        android:name="com.misaka20002.AdaptiveThemeXposed.permission.RELOAD"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.misaka20002.AdaptiveThemeXposed.permission.RELOAD" />
+
+    <application
+        android:label="Adaptive Theme"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:theme="@android:style/Theme.DeviceDefault.DayNight">
+
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+
+        <meta-data android:name="xposedmodule" android:value="true" />
+        <meta-data android:name="xposeddescription"
+            android:value="Hook 系统自动亮度，按亮度或环境光自动切换深/浅色模式" />
+        <meta-data android:name="xposedminversion" android:value="93" />
+        <meta-data android:name="xposedsharedprefs" android:value="true" />
+        <meta-data android:name="xposedscope" android:resource="@array/xposed_scope" />
+    </application>
+</manifest>
